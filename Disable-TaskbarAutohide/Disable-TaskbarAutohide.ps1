@@ -1,7 +1,16 @@
-. ..\Write-Log.ps1
+try{
+    . ..\Write-Log.ps1
+} catch {}
 
-$AutoHideEnabled = 3
-$AutoHideDisabled = 2
+$AutoHide = @{
+    Enabled = 3
+    Disabled = 2
+}
+
+$TaskbarPosition = @{
+    Top=1
+    Bottom=3
+}
 
 While ($true) {
 	$UserHives = Get-ChildItem Registry::HKU
@@ -12,9 +21,15 @@ While ($true) {
 		if (Test-Path Registry::$Path) {
 			$Existing = Get-ItemProperty -Path Registry::$Path -Name Settings
 
-			if ($Existing.Settings[8] -eq $AutoHideEnabled) {
+			if ($Existing.Settings[8] -eq $AutoHide.Enabled) {
 				Write-Log ($Hive.Name)
-				$Existing.Settings[8] = $AutoHideDisabled
+				$Existing.Settings[8] = $AutoHide.Disabled
+				Set-ItemProperty -Path Registry::$Path -Name Settings -Value ($Existing.Settings)
+			}
+
+            if ($Existing.Settings[12] -eq $TaskbarPosition.Top) {
+				Write-Log ($Hive.Name)
+				$Existing.Settings[12] = $TaskbarPosition.Bottom
 				Set-ItemProperty -Path Registry::$Path -Name Settings -Value ($Existing.Settings)
 			}
 		}
