@@ -1,6 +1,6 @@
 param(
-    [string]$Path = ".\*.csv",
-    [string]$OutputFile = "combined-"+(Get-Date -Format "yyyy-MM-dd")+"_"+(Get-Date -format "HHmm")+".csv"
+    [Parameter(Mandatory=$true)][string]$Path = ".\*.csv",
+    [Parameter(Mandatory=$true)][string]$OutputFile = "combined-"+(Get-Date -Format "yyyy-MM-dd")+"_"+(Get-Date -format "HHmm")+".csv"
 )
 
 $Files = Get-ChildItem -Path $Path
