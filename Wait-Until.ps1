@@ -1,4 +1,4 @@
-Function Wait-Until {
+﻿Function Wait-Until {
     param (
         [Parameter(Mandatory=$True,Position=1)][string] $Script,
         [int] $Pause = 1
@@ -6,7 +6,8 @@ Function Wait-Until {
 
     $ScriptBlock = [scriptblock]::Create($Script)
 
-    While ((Invoke-Command -ScriptBlock $ScriptBlock) -eq $False -or (Invoke-Command -ScriptBlock $ScriptBlock) -eq $null) {
+    Do {
+        $Result = Invoke-Command -ScriptBlock $ScriptBlock
         Start-Sleep $Pause
-    }
+    } While ($Result -eq $False -or $Result -eq $null -or $Result -eq [DBNull]::Value)
 }
