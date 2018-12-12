@@ -27,7 +27,7 @@ While ($true) {
 				Set-ItemProperty -Path Registry::$Path -Name Settings -Value ($Existing.Settings)
 			}
 
-            if ($Existing.Settings[12] -eq $TaskbarPosition.Top) {
+            		if ($Existing.Settings[12] -eq $TaskbarPosition.Top) {
 				Write-Log ($Hive.Name)
 				$Existing.Settings[12] = $TaskbarPosition.Bottom
 				Set-ItemProperty -Path Registry::$Path -Name Settings -Value ($Existing.Settings)
